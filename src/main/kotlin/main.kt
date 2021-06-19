@@ -7,12 +7,21 @@ fun main() {
     val inputFileName = "src/main/resources/Grafo_ponderado.json"
     val json = readFileAsLinesUsingBufferedReader(inputFileName)
     val jsonGraph = Json.decodeFromString<JsonGraph>(json)
+    val source = 0
+    val target = 14
+
 
     println(jsonGraph.toString())
+    println()
 
-    val pair = dijkstra(jsonGraph, 0, 14)
-    println(pair.first)
-    println(pair.second.contentToString())
+    val pair = dijkstra(jsonGraph, source, target)
+    println("distances -> ${pair.first}")
+    println("result -> ${pair.second.contentToString()}")
+    println()
+
+    val sequence = shortestPath(source, target, pair.second)
+    println("sequence -> ${sequence.contentToString()}")
+    println("distance -> ${pair.first[14]}")
 }
 
 /**
@@ -50,4 +59,16 @@ fun dijkstra(graph: JsonGraph, source: Int, target: Int): Pair<MutableMap<Int, I
 
     }
     return Pair(dist, prev)
+}
+
+fun shortestPath(source: Int, target: Int, sequence: Array<Int?>): IntArray {
+    val S = mutableListOf<Int>()
+    var u: Int? = target
+    if (sequence[u!!] != null || u == source) {
+        while (u != null) {
+            S.add(u)
+            u = sequence[u]
+        }
+    }
+    return S.reversed().toIntArray()
 }
