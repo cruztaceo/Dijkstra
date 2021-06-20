@@ -10,7 +10,6 @@ fun main() {
     val source = 0
     val target = 14
 
-
     println(jsonGraph.toString())
     println()
 
@@ -32,6 +31,16 @@ fun main() {
  */
 fun readFileAsLinesUsingBufferedReader(fileName: String): String = File(fileName).bufferedReader().use { it.readText() }
 
+/**
+ * Dijkstra Algorithm Method
+ * Executes the algorithm and stops once it reaches the target node.
+ *
+ * @param graph Graph
+ * @param source Source node
+ * @param target Target node
+ *
+ * @return Pair of Distances between all nodes and array of distances from node source to target
+ */
 fun dijkstra(graph: JsonGraph, source: Int, target: Int): Pair<MutableMap<Int, Int>, Array<Int?>> {
     val Q = graph.nodes.map { it }.toMutableList()
 
@@ -61,6 +70,15 @@ fun dijkstra(graph: JsonGraph, source: Int, target: Int): Pair<MutableMap<Int, I
     return Pair(dist, prev)
 }
 
+/**
+ * Method to return the shortest path from source to target
+ *
+ * @param source Source node
+ * @param target Target node
+ * @param sequence Distance Dijkstra Result
+ *
+ * @return shortest path from source to target
+ */
 fun shortestPath(source: Int, target: Int, sequence: Array<Int?>): IntArray {
     val S = mutableListOf<Int>()
     var u: Int? = target
